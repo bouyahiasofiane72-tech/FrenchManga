@@ -1,3 +1,4 @@
+
 package com.example
 
 import com.lagradost.cloudstream3.*
@@ -30,5 +31,24 @@ class FrenchMangaProvider : MainAPI() {
             )
         }
         return results
+    }
+
+    override suspend fun load(url: String): LoadResponse? {
+        val html = app.get(url).document
+
+        val title = html.selectFirst("h1")?.text() ?: "Anime"
+        val poster = html.selectFirst(".poster img")?.attr("src")
+        val description = html.selectFirst(".description")?.text()
+
+        val episodes = html.select("ul.episodios li a").mapNotNull { element ->
+            val epUrl = element.attr("href")
+            val name = element.text()
+            Episode(epUrl, name = name)
+        }
+
+        return NewAnimeLoadResponse(title, url, TvType.Anime, episodes) {
+            this.posterUrl = poster
+            this.plot = description
+        }
     }
 }
