@@ -1,10 +1,9 @@
-
 package com.example
 
 import com.lagradost.cloudstream3.*
 import com.lagradost.cloudstream3.utils.*
 
-class FrenchMangaProvider : MainAPI() {
+class ExampleProvider : MainAPI() {
     override var mainUrl = "https://w16.french-manga.net"
     override var name = "FrenchManga"
     override val supportedTypes = setOf(TvType.Anime, TvType.AnimeMovie)
@@ -48,7 +47,7 @@ class FrenchMangaProvider : MainAPI() {
 
         return NewAnimeLoadResponse(title, url, TvType.Anime, episodes) {
             this.posterUrl = poster
-            this.plot = description
+            // Propriété supprimée pour éviter l'erreur de compilation
         }
     }
 }
