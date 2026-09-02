@@ -7,6 +7,7 @@ import android.content.Context
 @CloudstreamPlugin
 class FrenchMangaPlugin : Plugin() {
     override fun load(context: Context) {
-        registerMainAPI(ExampleProvider())
+        registerMainAPI(FrenchMangaProvider())
+
     }
 }
