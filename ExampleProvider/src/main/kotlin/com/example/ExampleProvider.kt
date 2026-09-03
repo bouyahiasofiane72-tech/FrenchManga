@@ -10,8 +10,7 @@ class ExampleProvider : MainAPI() {
     override var lang = "fr"
 
     override suspend fun search(query: String): ArrayList<SearchResponse> {
-        val link = "$mainUrl/?s=$query"
-        val html = app.get(link).document
+        val html = app.get("$mainUrl/?s=$query").document
         val results = ArrayList<SearchResponse>()
 
         html.select("div.item").forEach { element ->
@@ -19,7 +18,6 @@ class ExampleProvider : MainAPI() {
             val url = element.selectFirst("a")?.attr("href") ?: return@forEach
             val poster = element.selectFirst("img")?.attr("src")
 
-            // Correction : nouvelle fonction en minuscules
             results.add(
                 newAnimeSearchResponse(
                     title,
@@ -38,17 +36,19 @@ class ExampleProvider : MainAPI() {
 
         val title = html.selectFirst("h1")?.text() ?: "Anime"
         val poster = html.selectFirst(".poster img")?.attr("src")
-        val description = html.selectFirst(".description")?.text()
 
-        // Correction : remplacement de Episode() par newEpisode()
         val episodes = html.select("ul.episodios li a").mapNotNull { element ->
             val epUrl = element.attr("href")
             val name = element.text()
-            newEpisode(epUrl, name = name)
+            newEpisode(link = epUrl, name = name)
         }
 
-        // Correction : nouvelle fonction en minuscules
-        return newAnimeLoadResponse(title, url, TvType.Anime, episodes) {
+        return newAnimeLoadResponse(
+            name = title,
+            url = url,
+            type = TvType.Anime,
+            episodes = episodes
+        ) {
             this.posterUrl = poster
         }
     }
