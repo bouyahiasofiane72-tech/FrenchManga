@@ -27,22 +27,22 @@ class BlankFragment(private val plugin: ExamplePlugin) : BottomSheetDialogFragme
     @SuppressLint("DiscouragedApi")
     @Suppress("SameParameterValue")
     private fun getDrawable(name: String): Drawable? {
-        val id = plugin.resources?.getIdentifier(name, "drawable", BuildConfig.LIBRARY_PACKAGE_NAME)
-        return id?.let { ResourcesCompat.getDrawable(plugin.resources ?: return null, it, null) }
+        val id = requireContext().resources?.getIdentifier(name, "drawable", BuildConfig.LIBRARY_PACKAGE_NAME)
+        return id?.let { ResourcesCompat.getDrawable(requireContext().resources ?: return null, it, null) }
     }
 
     // Helper function to get a string resource by name
     @SuppressLint("DiscouragedApi")
     @Suppress("SameParameterValue")
     private fun getString(name: String): String? {
-        val id = plugin.resources?.getIdentifier(name, "string", BuildConfig.LIBRARY_PACKAGE_NAME)
-        return id?.let { plugin.resources?.getString(it) }
+        val id = requireContext().resources?.getIdentifier(name, "string", BuildConfig.LIBRARY_PACKAGE_NAME)
+        return id?.let { requireContext().resources?.getString(it) }
     }
 
     // Generic findView function to find views by name
     @SuppressLint("DiscouragedApi")
     private fun <T : View> View.findViewByName(name: String): T? {
-        val id = plugin.resources?.getIdentifier(name, "id", BuildConfig.LIBRARY_PACKAGE_NAME)
+        val id = context?.resources?.getIdentifier(name, "id", BuildConfig.LIBRARY_PACKAGE_NAME)
         return findViewById(id ?: return null)
     }
 
@@ -53,9 +53,9 @@ class BlankFragment(private val plugin: ExamplePlugin) : BottomSheetDialogFragme
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layoutId = plugin.resources?.getIdentifier("fragment_blank", "layout", BuildConfig.LIBRARY_PACKAGE_NAME)
+        val layoutId = requireContext().resources?.getIdentifier("fragment_blank", "layout", BuildConfig.LIBRARY_PACKAGE_NAME)
         return layoutId?.let {
-            inflater.inflate(plugin.resources?.getLayout(it), container, false)
+            inflater.inflate(requireContext().resources?.getLayout(it), container, false)
         }
     }
 
