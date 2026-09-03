@@ -19,8 +19,9 @@ class ExampleProvider : MainAPI() {
             val url = element.selectFirst("a")?.attr("href") ?: return@forEach
             val poster = element.selectFirst("img")?.attr("src")
 
+            // Correction : nouvelle fonction en minuscules
             results.add(
-                NewAnimeSearchResponse(
+                newAnimeSearchResponse(
                     title,
                     url,
                     TvType.Anime
@@ -39,15 +40,16 @@ class ExampleProvider : MainAPI() {
         val poster = html.selectFirst(".poster img")?.attr("src")
         val description = html.selectFirst(".description")?.text()
 
+        // Correction : remplacement de Episode() par newEpisode()
         val episodes = html.select("ul.episodios li a").mapNotNull { element ->
             val epUrl = element.attr("href")
             val name = element.text()
-            Episode(epUrl, name = name)
+            newEpisode(epUrl, name = name)
         }
 
-        return NewAnimeLoadResponse(title, url, TvType.Anime, episodes) {
+        // Correction : nouvelle fonction en minuscules
+        return newAnimeLoadResponse(title, url, TvType.Anime, episodes) {
             this.posterUrl = poster
-            // Propriété supprimée pour éviter l'erreur de compilation
         }
     }
 }
