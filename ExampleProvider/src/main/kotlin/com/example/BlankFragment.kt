@@ -27,7 +27,8 @@ class BlankFragment(private val plugin: FrenchMangaPlugin) : BottomSheetDialogFr
     @SuppressLint("DiscouragedApi")
     @Suppress("SameParameterValue")
     private fun getDrawable(name: String): Drawable? {
-        val id = requireContext().resources?.getIdentifier(name, "drawable", BuildConfig.LIBRARY_PACKAGE_NAME)
+        // Remplacement de BuildConfig.LIBRARY_PACKAGE_NAME par requireContext().packageName
+        val id = requireContext().resources?.getIdentifier(name, "drawable", requireContext().packageName)
         return id?.let { ResourcesCompat.getDrawable(requireContext().resources ?: return null, it, null) }
     }
 
@@ -35,14 +36,16 @@ class BlankFragment(private val plugin: FrenchMangaPlugin) : BottomSheetDialogFr
     @SuppressLint("DiscouragedApi")
     @Suppress("SameParameterValue")
     private fun getString(name: String): String? {
-        val id = requireContext().resources?.getIdentifier(name, "string", BuildConfig.LIBRARY_PACKAGE_NAME)
+        // Remplacement de BuildConfig.LIBRARY_PACKAGE_NAME par requireContext().packageName
+        val id = requireContext().resources?.getIdentifier(name, "string", requireContext().packageName)
         return id?.let { requireContext().resources?.getString(it) }
     }
 
     // Generic findView function to find views by name
     @SuppressLint("DiscouragedApi")
     private fun <T : View> View.findViewByName(name: String): T? {
-        val id = context?.resources?.getIdentifier(name, "id", BuildConfig.LIBRARY_PACKAGE_NAME)
+        // Remplacement de BuildConfig.LIBRARY_PACKAGE_NAME par context?.packageName
+        val id = context?.resources?.getIdentifier(name, "id", context?.packageName)
         return findViewById(id ?: return null)
     }
 
@@ -53,7 +56,8 @@ class BlankFragment(private val plugin: FrenchMangaPlugin) : BottomSheetDialogFr
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layoutId = requireContext().resources?.getIdentifier("fragment_blank", "layout", BuildConfig.LIBRARY_PACKAGE_NAME)
+        // Remplacement de BuildConfig.LIBRARY_PACKAGE_NAME par requireContext().packageName
+        val layoutId = requireContext().resources?.getIdentifier("fragment_blank", "layout", requireContext().packageName)
         return layoutId?.let {
             inflater.inflate(requireContext().resources?.getLayout(it), container, false)
         }
